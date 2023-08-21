@@ -3,42 +3,7 @@ import modal
 import json
 import os
 
-
-def apply_theme(is_dark_mode):
-    if is_dark_mode:
-        return '''
-            <style>
-                body {
-                    color: #FAFAFA;
-                    background-color: #262730;
-                }
-                .stButton>button {
-                    color: #262730;
-                    background-color: #F63366;
-                }
-            </style>
-            '''
-    else:
-        return '''
-            <style>
-                body {
-                    color: #262730;
-                    background-color: #FFFFFF;
-                }
-                .stButton>button {
-                    color: #FAFAFA;
-                    background-color: #F63366;
-                }
-            </style>
-            '''
-
-
 def main():
-    # Adding theme switch
-    is_dark_mode = st.sidebar.checkbox('Dark Mode', value=True)
-    theme_css = apply_theme(is_dark_mode)
-    st.markdown(theme_css, unsafe_allow_html=True)
-
     st.title("Newsletter Dashboard")
 
     available_podcast_info = create_dict_from_json_files('.')
@@ -158,8 +123,4 @@ def process_podcast_info(url):
     return output
 
 if __name__ == '__main__':
-    main()
-
-# Call the main function
-if __name__ == "__main__":
     main()
