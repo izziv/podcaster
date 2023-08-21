@@ -1,17 +1,44 @@
+%%writefile /content/podcast/podcast_frontend.py
 import streamlit as st
 import modal
 import json
 import os
 
-dark_theme = {'primary': '#F63366', 'background': '#262730', 'text': '#FAFAFA', 'secondaryBackground': '#1E1E1F', 'layout': 'centered'}
-light_theme = {'primary': '#F63366', 'background': '#FFFFFF', 'text': '#262730', 'secondaryBackground': '#F0F2F6', 'layout': 'centered'}
+
+def apply_theme(is_dark_mode):
+    if is_dark_mode:
+        return '''
+            <style>
+                body {
+                    color: #FAFAFA;
+                    background-color: #262730;
+                }
+                .stButton>button {
+                    color: #262730;
+                    background-color: #F63366;
+                }
+            </style>
+            '''
+    else:
+        return '''
+            <style>
+                body {
+                    color: #262730;
+                    background-color: #FFFFFF;
+                }
+                .stButton>button {
+                    color: #FAFAFA;
+                    background-color: #F63366;
+                }
+            </style>
+            '''
+
 
 def main():
     # Adding theme switch
-    theme_selection = st.sidebar.radio('Choose Theme', options=['Dark Mode', 'Light Mode'])
-    theme = dark_theme if theme_selection == 'Dark Mode' else light_theme
-    st.set_page_config(layout="wide", page_title="Podcast Dashboard", theme=theme)
-
+    is_dark_mode = st.sidebar.checkbox('Dark Mode', value=True)
+    theme_css = apply_theme(is_dark_mode)
+    st.markdown(theme_css, unsafe_allow_html=True)
 
     st.title("Newsletter Dashboard")
 
@@ -132,4 +159,8 @@ def process_podcast_info(url):
     return output
 
 if __name__ == '__main__':
+    main()
+
+# Call the main function
+if __name__ == "__main__":
     main()
